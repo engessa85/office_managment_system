@@ -1,0 +1,139 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+
+{% block page_title %}{{ page_title }}{% endblock page_title %}
+
+{% block content %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">{{ page_title }}</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Job Title</th>
+                                    <th>Department</th>
+                                    <th>Avatar</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for manager in allManager %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ manager.last_name }}, {{ manager.first_name }}</td>
+                                    <td>{{ manager.email }}</td>
+                                    <td>{{ manager.job_title }}</td>
+                                    <td>{{ manager.manager.department.name }}</td>
+                                    <td>
+                                        {% if manager.profile_pic %}
+                                        <img class="img img-fluid mb-2" height="56" width="56"
+                                            src="{{ manager.profile_pic }}" alt="">
+                                        {% else %}
+                                        No Image
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <button data-toggle="modal" data-target="#myModal"
+                                            class="btn btn-primary show_notification"
+                                            data-manager-id="{{ manager.manager.id }}"
+                                            data-sender-id="{{ request.user.id }}">Send Notification</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">Send Notification
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" id="notification_message" class='form-control'>
+                    <input type="hidden" id="selected_manager_id" class='form-control'>
+                    <input type="hidden" id="sender_id" class='form-control'>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    Close
+                </button>
+
+                <button type="button" id='sendNotificationBtn' class="btn btn-success">Send Notification</button>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+
+</div><!-- /.modal -->
+{% endblock content %}
+
+{% block custom_js %}
+<script>
+    $(document).ready(function () {
+        $(".show_notification").click(function () {
+            var managerId = $(this).data("manager-id");
+            var senderId = $(this).data("sender-id");
+            $("#selected_manager_id").val(managerId);
+            $("#sender_id").val(senderId);
+        });
+
+        $("#sendNotificationBtn").click(function () {
+            var managerId = $("#selected_manager_id").val();
+            var senderId = $("#sender_id").val();
+            var message = $("#notification_message").val();
+            var csrfToken = "{{ csrf_token }}";
+
+            $.ajax({
+                url: "{% url 'send_manager_notification' %}",
+                type: 'POST',
+                headers: {
+                    "X-CSRFToken": csrfToken
+                },
+                data: {
+                    manager_id: managerId,
+                    sender_id: senderId,
+                    message: message
+                },
+                success: function (response) {
+                    if (response.success) {
+                        alert("Notification Sent");
+                        $('#myModal').modal('hide');
+                    } else {
+                        alert("Notification could not be sent. Please try again.");
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert("Error in sending notification: " + errorThrown);
+                }
+            });
+        });
+    });
+</script>
+{% endblock custom_js %}

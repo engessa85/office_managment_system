@@ -1,0 +1,62 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block page_title %}{{page_title}}{% endblock page_title %}
+
+{% block content %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">{{page_title}}</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Title</th>
+                                    <th>Organizer</th>
+                                    <th>Description</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Participants</th>
+                                    <th>Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for meeting in meetings %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ meeting.title }}</td>
+                                    <td>{{ meeting.organizer }}</td>
+                                    <td>{{ meeting.description }}</td>
+                                    <td>{{ meeting.date }}</td>
+                                    <td>{{ meeting.time }}</td>
+                                    <td>
+                                        <ul>
+                                            {% for participant in meeting.participants.all %}
+                                            <li>{{ participant }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </td>
+                                 <td>
+                                        <a href="{% url 'edit_meeting_manager' meeting.id %}" class="btn btn-info">Edit</a> -
+                                        <a href="{% url 'delete_meeting_manager' meeting.id %}" class="btn btn-danger" onclick="return confirm('Are you sure about this ?')">Delete</a>
+
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

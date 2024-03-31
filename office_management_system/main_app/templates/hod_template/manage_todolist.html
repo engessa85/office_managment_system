@@ -1,0 +1,62 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block page_title %}{{page_title}}{% endblock page_title %}
+
+{% block content %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">{{page_title}}</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Due Time</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for todolist in ToDoLists %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ todolist.name }}</td>
+                                        <td>{{ todolist.description }}</td>
+                                        <td>{{ todolist.due_time }}</td>
+                                        <td>{{ todolist.due_date }}</td>
+                                        <td>
+                                            {% if todolist.status  == True %}
+                                                <span class='badge badge-success'>Completed</span>
+                                            {% else %}
+                                                <span class='badge badge-danger'>In progress</span>
+                                            {% endif %}
+                                        </td>
+                                    <td>
+                                        {# Edit Button #}
+                                        <a href="{% url 'update_todolist' todolist.id %}" class="btn btn-info">Finished</a>
+
+                                        {# Delete Button #}
+                                        <a href="{% url 'delete_todolist' todolist.id %}" onclick="return confirm('Are you sure you want to delete this task?')" class="btn btn-danger">Delete</a>
+                                    </td>
+
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,80 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block content %}
+<section class="content">
+                    <!-- Display received messages -->
+                    <div class="card-body">
+                        <h4>Received Messages</h4>
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Sender</th>
+                                    <th>Message</th>
+                                    <th>Sent On</th>
+                                    <th>Reply</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for message in received_messages %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ message.sender }}</td>
+                                    <td>{{ message.message }}</td>
+                                    <td>{{ message.created_at }}</td>
+                                    <td>
+                                        {% if message.reply %}
+                                            {{ message.reply }}
+                                        {% else %}
+                                            <form method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="message_id" value="{{ message.id }}">
+                                                <textarea name="reply" rows="2" cols="30"></textarea>
+                                                <button type="submit" class="btn btn-sm btn-primary">Reply</button>
+                                            </form>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+        $(".reply_open_modal").click(function(){
+            var id = $(this).val();
+            var name = $(this).parents("tr").children("td:eq(1)").text();
+            $("#reply_name").text(name);
+            $("#id").val(id);
+        });
+
+        $("#reply_btn").on("click", function(){
+            var id = $("#id").val();
+            var reply = $("#reply_message").val();
+
+            $.ajax({
+                url: "{% url 'receive_message' %}",
+                type: 'POST',
+                data: {
+                    id: id,
+                    reply: reply
+                }
+            }).done(function(response){
+                if (response == "True"){
+                    alert("Reply Sent");
+                    location.reload();
+                } else {
+                    alert("Reply Could Not Be Sent");
+                }
+            }).fail(function(response){
+                alert("Error Occurred.");
+            });
+        });
+    });
+</script>
+{% endblock custom_js %}

@@ -1,0 +1,58 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block page_title %}{{ page_title }}{% endblock page_title %}
+
+{% block content %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Filter Participants Form -->
+                <div class="card card-dark">
+                    <div class="card-header">
+                        <h3 class="card-title">Filter Participants</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Filter Participants Form -->
+                        <form id="filter-participants-form" method="post" action="{% url 'filter_participants_manager' %}">
+                            {% csrf_token %}
+                            {{ filter_form.as_p }}
+                            <button type="submit" class="btn btn-primary">Filter Participants</button>
+                        </form>
+
+                        <!-- Participant Select -->
+                        <select id="participants-select" class="form-control" multiple>
+                            <!-- Selected participants will be dynamically added here -->
+                        </select>
+
+                        <!-- Add Participants Button -->
+                        <div class="mt-3">
+                            <button id="add-participants-btn" class="btn btn-primary">Add Participants</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- Create Meeting Form -->
+                <div class="card card-dark">
+                    <div class="card-header">
+                        <h3 class="card-title">Create Meeting</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="create-meeting-form" method="post" action="{% url 'create_meeting_manager' %}">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-success">Create</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{% static 'dist/js/meeting_form.js' %}"></script>
+
+{% endblock content %}

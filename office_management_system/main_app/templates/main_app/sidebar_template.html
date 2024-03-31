@@ -1,0 +1,781 @@
+{% load static %}
+<aside class="main-sidebar sidebar-dark-info elevation-4">
+    {% if request.user.user_type == '1' %}
+    <!-- Brand Logo -->
+    <a href="{% url 'admin_home' %}" class="brand-link">
+        <img src="{% static 'dist/img/cmsl.png' %} " alt="AdminLTE Logo"
+            class="brand-image img-circle elevation-3" >
+        <span class="brand-text font-weight-light">Admin Panel</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="{{ request.user.profile_pic}}" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">{{user}}</a>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                <li class="nav-item">
+                    {% url 'admin_home' as admin_home %}
+                    <a href="{{admin_home}}" class="nav-link {% if admin_home == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>
+                            Home
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'admin_view_profile' as admin_view_profile %}
+                    <a href="{{admin_view_profile}}"
+                        class="nav-link {% if admin_view_profile == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-address-card"></i>
+                        <p>
+                            Update Profile
+
+                        </p>
+                    </a>
+                </li>
+
+
+
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-bookmark"></i>
+                        <p>
+                            Department
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            {% url 'add_department' as add_department %}
+                            <a href="{{add_department}}"
+                                class="nav-link  {% if add_department == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Add Department
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            {% url 'manage_department' as manage_department %}
+                            {% url 'edit_department' manage_department_id as edit_department %}
+                            <a href="{{manage_department}}"
+                                class="nav-link  {% if edit_department == request.path or manage_department == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Manage Department
+
+                                </p>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+
+
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Manager
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            {% url 'add_manager' as add_manager %}
+                            <a href="{{add_manager}}"
+                                class="nav-link  {% if add_manager == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Add Manager
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            {% url 'manage_manager' as manage_manager %}
+                            {% url 'edit_manager' manager_id as edit_manager %}
+                            <a href="{{manage_manager}}"
+                                class="nav-link  {% if edit_manager == request.path or manage_manager == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Manage Manager
+
+                                </p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-clock"></i>
+                        <p>
+                            Employer
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            {% url 'add_employer' as add_employer %}
+                            <a href="{{add_employer}}"
+                                class="nav-link  {% if add_employer == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Add Employer
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            {% url 'manage_employer' as manage_employer %}
+                            {% url 'edit_employer' employer_id as edit_employer %}
+                            <a href="{{manage_employer}}"
+                                class="nav-link  {% if edit_employer == request.path or manage_employer == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Manage Employer
+
+                                </p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+        <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-th-list"></i>
+                        <p>
+                            ToDoList
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            {% url 'add_todolist' as add_todolist %}
+                            <a href="{{add_todolist}}"
+                                class="nav-link  {% if add_todolist == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Add Task To The List
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            {% url 'manage_todolist' as manage_todolist %}
+                            {% url 'complete_todolist' todolist_id as complete_todolist %}
+                            <a href="{{manage_todolist}}"
+                                class="nav-link  {% if complete_todolist == request.path or manage_todolist == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Manage The ToDoList
+
+                                </p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+        <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-th-list"></i>
+                        <p>
+                            Meeting
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            {% url 'create_meeting' as create_meeting %}
+                            <a href="{{create_meeting}}"
+                                class="nav-link  {% if create_meeting == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Create Meeting
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            {% url 'manage_meeting' as manage_meeting %}
+                            {% url 'edit_meeting' meeting_id as edit_meeting %}
+                            <a href="{{manage_meeting}}"
+                                class="nav-link  {% if edit_meeting == request.path or manage_meeting == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Manage Meeting List
+
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+        <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-th-list"></i>
+                        <p>
+                            Task
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            {% url 'add_task' as add_task %}
+                            <a href="{{add_task}}"
+                                class="nav-link  {% if add_task == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Create Task
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            {% url 'manage_task' as manage_task %}
+                            {% url 'edit_task' task_id as edit_task %}
+                            <a href="{{manage_task}}"
+                                class="nav-link  {% if edit_task == request.path or manage_task == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Manage Tasks
+
+                                </p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+        <li class="nav-item">
+                    {% url 'admin_notify_manager' as admin_notify_manager %}
+                    <a href="{{admin_notify_manager}}"
+                        class="nav-link {% if admin_notify_manager == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-bullhorn"></i>
+                        <p>
+                            Notify Manager
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'admin_notify_employer' as admin_notify_employer %}
+                    <a href="{{admin_notify_employer}}"
+                        class="nav-link {% if admin_notify_employer == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-bullhorn"></i>
+                        <p>
+                            Notify Employer
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'admin_receive_message' as admin_receive_message %}
+
+                    <a href="{{admin_receive_message}}"
+                        class="nav-link   {% if admin_receive_message == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-comment"></i>
+                        <p>
+                            Manager Message
+
+                        </p>
+                    </a>
+                </li>
+                {% elif request.user.user_type == '2' %}
+                <!-- Brand Logo -->
+                <a href="#" class="brand-link">
+                    <img src="{% static 'dist/img/AdminLTELogo.png' %} " alt="AdminLTE Logo"
+                        class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <span class="brand-text font-weight-light">Manager Panel</span>
+                </a>
+
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Sidebar user panel (optional) -->
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="image">
+                            <img src="{{ request.user.profile_pic}}" class="img-circle elevation-2" alt="User Image">
+                        </div>
+                        <div class="info">
+                            <a href="#" class="d-block">{{ user}}</a>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Menu -->
+                    <nav class="mt-2">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                            data-accordion="false">
+
+                            <li class="nav-item">
+                                {% url 'manager_home' as manager_home %}
+                                <a href="{{manager_home}}"
+                                    class="nav-link {% if manager_home == request.path %} active {% endif %}">
+                                    <i class="nav-icon fas fa-home"></i>
+                                    <p>
+                                        Home
+
+                                    </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                {% url 'manager_view_profile' as manager_view_profile %}
+                                <a href="{{manager_view_profile}}"
+                                    class="nav-link {% if manager_view_profile == request.path %} active {% endif %}">
+                                    <i class="nav-icon fas fa-address-card"></i>
+                                    <p>
+                                        Update Profile
+
+                                    </p>
+                                </a>
+                            </li>
+        <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-th-list"></i>
+                        <p>
+                            Messages
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            {% url 'send_message' as send_message %}
+                            <a href="{{send_message}}"
+                                class="nav-link  {% if send_message == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Send Message
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            {% url 'receive_message' as receive_message %}
+                            <a href="{{receive_message}}"
+                                class="nav-link  {% if receive_message == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Receive Message
+
+                                </p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-th-list"></i>
+                        <p>
+                            ToDoList
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            {% url 'add_todolist_manager' as add_todolist_manager %}
+                            <a href="{{add_todolist_manager}}"
+                                class="nav-link  {% if add_todolist_manager == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Add Task To The List
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            {% url 'manage_todolist_manager' as manage_todolist_manager %}
+                            {% url 'complete_todolist_manager' todolist_id as complete_todolist %}
+                            <a href="{{manage_todolist_manager}}"
+                                class="nav-link  {% if complete_todolist == request.path or manage_todolist_manager == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Manage The ToDoList
+
+                                </p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+        <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-th-list"></i>
+                        <p>
+                            Meeting
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            {% url 'create_meeting_manager' as create_meeting_manager %}
+                            <a href="{{create_meeting_manager}}"
+                                class="nav-link  {% if create_meeting_manager == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Create Meeting
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            {% url 'manage_meeting_manager' as manage_meeting_manager %}
+                            {% url 'edit_meeting_manager' meeting_id as edit_meeting_manager %}
+                            <a href="{{manage_meeting_manager}}"
+                                class="nav-link  {% if edit_meeting_manager == request.path or manage_meeting_manager == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Manage Meeting List
+
+                                </p>
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                {% url 'display_user_meeting' as display_user_meeting %}
+                                <a href="{{display_user_meeting}}"
+                                    class="nav-link {% if display_user_meeting == request.path %} active {% endif %}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>
+                                        My Meeting
+
+                                    </p>
+                                </a>
+                            </li>
+                    </ul>
+                </li>
+        <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-th-list"></i>
+                        <p>
+                            Task
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            {% url 'add_task_manager' as add_task_manager %}
+                            <a href="{{add_task_manager}}"
+                                class="nav-link  {% if add_task_manager == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Create Task
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            {% url 'manage_task_manager' as manage_task_manager %}
+                            {% url 'edit_task_manager' task_id as edit_task %}
+                            <a href="{{manage_task_manager}}"
+                                class="nav-link  {% if edit_task_manager == request.path or manage_task_manager == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Manage Tasks
+
+                                </p>
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                {% url 'display_user_tasks' as display_user_tasks %}
+                                <a href="{{display_user_tasks}}"
+                                    class="nav-link {% if display_user_tasks == request.path %} active {% endif %}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>
+                                        My Task
+
+                                    </p>
+                                </a>
+                            </li>
+                    </ul>
+                </li>
+        <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-th-list"></i>
+                        <p>
+                            Project
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            {% url 'manager_create_project' as manager_create_project %}
+                            <a href="{{manager_create_project}}"
+                                class="nav-link  {% if manager_create_project == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Create Project
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            {% url 'manager_manage_project' as manager_manage_project %}
+                            {% url 'manager_edit_project' project_id as manager_edit_project %}
+                            <a href="{{manager_manage_project}}"
+                                class="nav-link  {% if manager_edit_project == request.path or manager_manage_project == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Manage projects
+
+                                </p>
+                            </a>
+                        </li>
+                            </ul>
+                </li>
+                            <li class="nav-item">
+                                {% url 'manager_view_notification' as manager_view_notification %}
+                                <a href="{{manager_view_notification}}"
+                                    class="nav-link {% if manager_view_notification == request.path %} active {% endif %}">
+                                    <i class="nav-icon fas fa-bell"></i>
+                                    <p>
+                                        View Notifications
+
+                                    </p>
+                                </a>
+                            </li>
+
+                            {% else %}
+                            <!-- Brand Logo -->
+                            <a href="" class="brand-link">
+
+                                <img src="{% static 'dist/img/AdminLTELogo.png' %} " alt="AdminLTE Logo"
+                                    class="brand-image img-circle elevation-3" style="opacity: .8">
+                                <span class="brand-text font-weight-light">Employer Panel</span>
+                            </a>
+
+                            <!-- Sidebar -->
+                            <div class="sidebar">
+                                <!-- Sidebar user panel (optional) -->
+                                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                                    <div class="image">
+                                        <img src="{{ request.user.profile_pic}}" class="img-circle elevation-2"
+                                            alt="User Image">
+                                    </div>
+                                    <div class="info">
+                                        <a href="#" class="d-block">{{user}}</a>
+                                    </div>
+                                </div>
+
+                                <!-- Sidebar Menu -->
+                                <nav class="mt-2">
+                                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                                        data-accordion="false">
+
+                                        <li class="nav-item">
+                                            {% url 'employer_home' as employer_home %}
+                                            <a href="{{employer_home}}"
+                                                class="nav-link {% if employer_home == request.path %} active {% endif %}">
+                                                <i class="nav-icon fas fa-home"></i>
+                                                <p>
+                                                    Home
+
+                                                </p>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            {% url 'employer_view_profile' as employer_view_profile %}
+                                            <a href="{{employer_view_profile}}"
+                                                class="nav-link {% if employer_view_profile == request.path %} active {% endif %}">
+                                                <i class="nav-icon fas fa-address-card"></i>
+                                                <p>
+                                                    Update Profile
+
+                                                </p>
+                                            </a>
+                                        </li>
+        <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-th-list"></i>
+                        <p>
+                            Messages
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            {% url 'employer_send_message' as employer_send_message %}
+                            <a href="{{employer_send_message}}"
+                                class="nav-link  {% if employer_send_message == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Send Message
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            {% url 'employer_receive_message' as employer_receive_message %}
+                            <a href="{{employer_receive_message}}"
+                                class="nav-link  {% if employer_receive_message == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Receive Message
+
+                                </p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+        <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-th-list"></i>
+                        <p>
+                            ToDoList
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            {% url 'add_todolist_employer' as add_todolist_employer %}
+                            <a href="{{add_todolist_employer}}"
+                                class="nav-link  {% if add_todolist_employer == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Add Task To The List
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            {% url 'manage_todolist_employer' as manage_todolist_employer %}
+                            {% url 'complete_todolist_employer' todolist_id as complete_todolist %}
+                            <a href="{{manage_todolist_employer}}"
+                                class="nav-link  {% if complete_todolist == request.path or manage_todolist_employer == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Manage The ToDoList
+
+                                </p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+        <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-th-list"></i>
+                        <p>
+                            Meeting
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            {% url 'create_meeting_employer' as create_meeting_employer %}
+                            <a href="{{create_meeting_employer}}"
+                                class="nav-link  {% if create_meeting_employer == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Create Meeting
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            {% url 'manage_meeting_employer' as manage_meeting_employer %}
+                            {% url 'edit_meeting_employer' meeting_id as edit_meeting_employer %}
+                            <a href="{{manage_meeting_employer}}"
+                                class="nav-link  {% if edit_meeting_employer == request.path or manage_meeting_employer == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Manage Meeting List
+
+                                </p>
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                {% url 'display_employer_meeting' as display_employer_meeting %}
+                                <a href="{{display_employer_meeting}}"
+                                    class="nav-link {% if display_employer_meeting == request.path %} active {% endif %}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>
+                                        My Meeting
+
+                                    </p>
+                                </a>
+                            </li>
+                    </ul>
+                </li>
+         <li class="nav-item">
+                                {% url 'display_employer_tasks' as display_employer_tasks %}
+                                <a href="{{display_employer_tasks}}"
+                                    class="nav-link {% if display_employer_tasks == request.path %} active {% endif %}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>
+                                       My Task
+
+                                    </p>
+                                </a>
+                            </li>
+         <li class="nav-item">
+                                {% url 'display_projects_team' as display_projects_team %}
+                                <a href="{{display_projects_team}}"
+                                    class="nav-link {% if display_projects_team == request.path %} active {% endif %}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>
+                                        My Projects
+
+                                    </p>
+                                </a>
+                            </li>
+                                        <li class="nav-item">
+                                            {% url 'employer_view_notification' as employer_view_notification %}
+                                            <a href="{{employer_view_notification}}"
+                                                class="nav-link {% if employer_view_notification == request.path %} active {% endif %}">
+                                                <i class="nav-icon fas fa-bell"></i>
+                                                <p>
+                                                    View Notifications
+
+                                                </p>
+                                            </a>
+                                        </li>
+
+                                        {% endif %}
+
+
+
+                                        <li class="nav-item">
+                                            <a href="{% url 'user_logout' %}"
+                                                onclick="return confirm('Your session would be terminated.\n\nProceed?')"
+                                                class="nav-link">
+                                                <i class="nav-icon fas fa-power-off"></i>
+                                                <p>
+                                                    Logout
+                                                </p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!-- /.sidebar-menu -->
+                            </div>
+                            <!-- /.sidebar -->
+</aside>
